@@ -17,6 +17,17 @@ function Form() {
     "Friday",
     "Saturday",
   ];
+  const Location = [
+    "Enter Location",
+    "Polokwane",
+    "Turflop",
+    "Boyne",
+    "Seshego",
+    "Moletji",
+    "Nobody",
+    "Mamahule",
+  ];
+
 
   return (
     <div
@@ -93,8 +104,7 @@ function Form() {
           >
             {/* Location Input */}
             <div style={{ width: "48%", marginRight: "4%" }}>
-              <input
-                 type="text"
+            <select
                 style={{
                   width: "100%",
                   height: 56,
@@ -105,8 +115,14 @@ function Form() {
                   fontSize: 16,
                   fontWeight: "500",
                 }}
-                placeholder="Enter Location"
-              />
+              >
+                 {Location.map((places) => (
+                    <option key={places} value={places}>
+                      {places}
+                    </option>
+                  ))}
+              </select>
+
             </div>
 
             {/* Notification Type */}
