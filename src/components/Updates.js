@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { firestore } from "../firebase";
 
 function Updates() {
-    const navigate = useNavigate();
-    const Update=()=>{
-        navigate('/Form')
+  const navigate = useNavigate();
+  const [updates, setUpdates] = useState([]);
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      try {
+        const updatesRef = firestore.collection("Boyne");
+        const snapshot = await updatesRef.get();
+        const updatesData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUpdates(updatesData);
+      } catch (error) {
+        console.error("Error fetching updates:", error);
+      }
+    };
+
+    fetchUpdates();
+  }, []);
+
+  const handleUpdate = (updateId) => {
+    navigate(`/Form/${updateId}`);
+  };
+
+  const handleDelete = async (updateId) => {
+    try {
+      await firestore.collection("updates").doc(updateId).delete();
+      setUpdates((prevUpdates) =>
+        prevUpdates.filter((update) => update.id !== updateId)
+      );
+    } catch (error) {
+      console.error("Error deleting update:", error);
     }
+  };
+
   return (
     <div
       style={{
@@ -25,119 +58,45 @@ function Updates() {
           top: "50%",
           transform: "translate(-50%, -50%)",
           borderRadius: 5,
+          background: "#F5F5F5",
           border: "1px solid #ddd",
-          overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            background: "#F5F5F5",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "10%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "35%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "60%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "10%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "35%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "60%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "10%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "35%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
-            height: "20%",
-            left: 15,
-            top: "60%",
-            position: "absolute",
-            background: "white",
-            borderBottom: "1px solid #ddd",
-          }}
-        />
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Notification Type</th>
+              <th>Time</th>
+              <th>Day</th>
+              <th>Message</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {updates.map((update) => (
+              <tr key={update.id}>
+                <td>{update.location}</td>
+                <td>{update.notificationType}</td>
+                <td>{update.time}</td>
+                <td>{update.dayOfWeek}</td>
+                <td>{update.message}</td>
+                <td>
+                  <button
+                    onClick={() => handleUpdate(update.id)}
+                    style={{ marginRight: "8px" }}
+                  >
+                    Update
+                  </button>
+                  <button onClick={() => handleDelete(update.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
       <div
         style={{
           width: "30%",
@@ -158,16 +117,14 @@ function Updates() {
             fontSize: 14,
             fontFamily: "Poppins",
             background: "#176B87",
-            color:'white',
-            border:'none'
-            
+            color: "white",
+            border: "none",
           }}
-          onClick={Update}
+          onClick={() => navigate("/Form")}
         >
           Add Update
         </button>
       </div>
-
       <div
         style={{
           width: "100%",
@@ -189,7 +146,8 @@ function Updates() {
         >
           HydroAlert
         </div>
-        <Link to={'/'}
+        <Link
+          to={"/"}
           style={{
             left: "80%",
             top: "50%",

@@ -1,0 +1,40 @@
+.update-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .update-form h1 {
+    margin-top: 0;
+  }
+  
+  .update-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .update-form input[type="text"],
+  .update-form textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .update-form textarea {
+    height: 100px;
+  }
+  
+  .update-form .submit-button {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .update-form .go-back-link {
+    display: block;
+    margin-top: 10px;
+  }

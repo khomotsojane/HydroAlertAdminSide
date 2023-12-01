@@ -1,11 +1,33 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { firestore } from "../firebase";
 
 function Form() {
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/Updates')
+
+    // Get the form values
+    const location = e.target.elements.location.value;
+    const notificationType = e.target.elements.notificationType.value;
+    const time = e.target.elements.time.value;
+    const dayOfWeek = e.target.elements.dayOfWeek.value;
+    const message = e.target.elements.message.value;
+
+    try {
+      await firestore.collection(location).doc(notificationType).set({
+        location,
+        notificationType,
+        time,
+        dayOfWeek,
+        message,
+      });
+
+      navigate("/Updates");
+    } catch (error) {
+      console.error("Error storing form data:", error);
+    }
   };
 
   const daysOfWeek = [
@@ -17,17 +39,8 @@ function Form() {
     "Friday",
     "Saturday",
   ];
-  const Location = [
-    "Enter Location",
-    "Polokwane",
-    "Turflop",
-    "Boyne",
-    "Seshego",
-    "Moletji",
-    "Nobody",
-    "Mamahule",
-  ];
-
+  const locations = ["Boyne", "Makanye", "Ga-Molepo", "Iraq", "Ga-Mothiba"];
+  const notificationTypes = ["normal", "emergency"];
 
   return (
     <div
@@ -104,44 +117,54 @@ function Form() {
           >
             {/* Location Input */}
             <div style={{ width: "48%", marginRight: "4%" }}>
-            <select
-                style={{
-                  width: "100%",
-                  height: 56,
-                  background: "white",
-                  borderRadius: 4,
-                  border: "1px solid #ddd",
-                  paddingLeft: 14,
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
-              >
-                 {Location.map((places) => (
-                    <option key={places} value={places}>
-                      {places}
+              <label>
+                Location:
+                <select
+                  name="location"
+                  style={{
+                    width: "100%",
+                    height: 56,
+                    background: "white",
+                    borderRadius: 4,
+                    border: "1px solid #ddd",
+                    paddingLeft: 14,
+                    fontSize: 16,
+                    fontWeight: "500",
+                  }}
+                >
+                  {locations.map((place) => (
+                    <option key={place} value={place}>
+                      {place}
                     </option>
                   ))}
-              </select>
-
+                </select>
+              </label>
             </div>
 
             {/* Notification Type */}
             <div style={{ width: "48%" }}>
-              <select
-                style={{
-                  width: "100%",
-                  height: 56,
-                  background: "white",
-                  borderRadius: 4,
-                  border: "1px solid #ddd",
-                  paddingLeft: 14,
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
-              >
-                <option value="normal">Normal Update</option>
-                <option value="emergency">Emergency</option>
-              </select>
+              <label>
+                Notification Type:
+                <select
+                  name="notificationType"
+                  style={{
+                    width: "100%",
+                    height: 56,
+                    background: "white",
+                    borderRadius: 4,
+                    border: "1px solid #ddd",
+                    paddingLeft: 14,
+                    fontSize: 16,
+                    fontWeight: "500",
+                  }}
+                >
+                  {notificationTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </div>
 
@@ -151,112 +174,128 @@ function Form() {
               width: "30%",
               height: "7%",
               position: "absolute",
-              left: "70%",
-              top: "90%",
-              overflow: "hidden",
+              left: "calc(50% - 2px)",
+              bottom: 15,
+              background: "#176B87",
+              borderRadius: 4,
+              color: "white",
+              fontSize: 16,
+              fontWeight: "500",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               cursor: "pointer",
             }}
           >
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-               
-                borderRadius: "5px 5px 0 0",
-              }}
-            />
             <button
+              type="submit"
               style={{
-                left: "25%",
-                top: "50%",
-                transform: "translateY(-50%)",
-                position: "absolute",
-                border:'none',
-                background: "#176B87",
-                color: "#F5F5F5",
+                background: "none",
+                border: "none",
+                color: "white",
+                cursor: "pointer",
                 fontSize: 16,
                 fontWeight: "500",
-                textAlign: "center",
               }}
-              onClick={handleSubmit}
             >
               Update
             </button>
           </div>
 
-          {/* Form Inputs */}
+          {/* Time Input */}
           <div
             style={{
-              width: "40%",
-              height: "60%",
+              width: "48%",
               position: "absolute",
-              left: "5%",
-              top: "20%",
+              left: 15,
+              top: "35%",
               display: "flex",
               flexDirection: "column",
             }}
           >
-            {/* Time Inputs */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: 70,
-              }}
-            >
-              <div style={{ width: "48%" }}>
-                <input
-                  type="time"
-                  style={{
-                    width: "100%",
-                    height: 56,
-                    background: "white",
-                    borderRadius: 4,
-                    border: "1px solid #ddd",
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                />
-              </div>
-              <div style={{ width: "100%", height: 56, marginBottom: 20 }}>
-                <select
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    background: "white",
-                    borderRadius: 4,
-                    border: "1px solid #ddd",
-                    paddingLeft: 14,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-                  {daysOfWeek.map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Message Input */}
-            <div style={{ width: "100%", height: 240, marginBottom: 20 }}>
-              <textarea
+            <label>
+              Time:
+              <input
+                type="time"
+                name="time"
                 style={{
                   width: "100%",
-                  height: "100%",
-                  background: "#F5F5F5",
-                  borderRadius: 8,
+                  height: 56,
+                  background: "white",
+                  borderRadius: 4,
                   border: "1px solid #ddd",
-                  padding: 14,
+                  paddingLeft: 14,
                   fontSize: 16,
                   fontWeight: "500",
                 }}
-                placeholder="Enter Message"
-              ></textarea>
-            </div>
+              />
+            </label>
+          </div>
+
+          {/* Day of Week Input */}
+          <div
+            style={{
+              width: "48%",
+              position: "absolute",
+              left: "calc(50% + 2px)",
+              top: "35%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <label>
+              Day of Week:
+              <select
+                name="dayOfWeek"
+                style={{
+                  width: "100%",
+                  height: 56,
+                  background: "white",
+                  borderRadius: 4,
+                  border: "1px solid #ddd",
+                  paddingLeft: 14,
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
+              >
+                {daysOfWeek.map((day) => (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          {/* Message Input */}
+          <div
+            style={{
+              width: "96%",
+              position: "absolute",
+              left: 15,
+              top: "60%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <label>
+              Message:
+              <textarea
+                name="message"
+                style={{
+                  width: "100%",
+                  height: 80,
+                  resize: "none",
+                  background: "white",
+                  borderRadius: 4,
+                  border: "1px solid #ddd",
+                  paddingLeft: 14,
+                  paddingTop: 8,
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
+              />
+            </label>
           </div>
         </div>
       </form>
