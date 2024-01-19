@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import watertruckImage from "../assets/watertruck.jpg";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      navigate("/Updates");
+      navigate("/sidebar");
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -95,7 +96,8 @@ const LoginScreen = () => {
       <div className="col">
         <img
           style={{ width: 551, height: 349, marginTop: 100 }}
-          src="./assets/watertruck.jpeg"
+          src={watertruckImage}
+          alt="Water Truck"
         />
       </div>
     </div>

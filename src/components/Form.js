@@ -1,6 +1,37 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  TextField,
+  Grid,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { firestore } from "../firebase";
+
+const FormContainer = styled(Grid)(({ theme }) => ({
+  width: "100%",
+  height: "100vh",
+  position: "relative",
+  background: "#fcfcfc",
+  fontFamily: "Arial, sans-serif",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#4caf50",
+  color: "white",
+  borderRadius: "5px",
+  "&:hover": {
+    backgroundColor: "#388e3c",
+  },
+}));
 
 function Form() {
   const navigate = useNavigate();
@@ -43,263 +74,88 @@ function Form() {
   const notificationTypes = ["normal", "emergency"];
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        position: "relative",
-        background: "#FCFCFC",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          height: "5%",
-          position: "absolute",
-          left: "5%",
-          top: "2%",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            color: "#176B87",
-            fontSize: 18,
-            fontFamily: "Poppins",
-            fontWeight: "700",
-            wordWrap: "break-word",
-          }}
-        >
-          HydroAlert
-        </div>
-      </div>
-
-      {/* Main Content */}
+    <FormContainer>
+      <h2>Update Form</h2>
       <form onSubmit={handleSubmit}>
-        <div
-          style={{
-            width: "80%",
-            maxWidth: 800,
-            height: "70%",
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: 10,
-            boxShadow: "0 0 20px rgba(0, 0, 0, 0.1)",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              background: "#F5F5F5",
-              borderRadius: 10,
-              border: "0.30px solid",
-            }}
-          />
-          <div
-            style={{
-              width: "100%",
-              height: "80%",
-              left: 15,
-              top: "10%",
-              position: "absolute",
-              background: "white",
-              borderBottom: "1px solid #ddd",
-              padding: "20px",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            {/* Location Input */}
-            <div style={{ width: "48%", marginRight: "4%" }}>
-              <label>
-                Location:
-                <select
-                  name="location"
-                  style={{
-                    width: "100%",
-                    height: 56,
-                    background: "white",
-                    borderRadius: 4,
-                    border: "1px solid #ddd",
-                    paddingLeft: 14,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-                  {locations.map((place) => (
-                    <option key={place} value={place}>
-                      {place}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            {/* Notification Type */}
-            <div style={{ width: "48%" }}>
-              <label>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="location-label">Location:</InputLabel>
+              <Select
+                labelId="location-label"
+                id="location"
+                name="location"
+                label="Location"
+              >
+                {locations.map((place) => (
+                  <MenuItem key={place} value={place}>
+                    {place}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="notificationType-label">
                 Notification Type:
-                <select
-                  name="notificationType"
-                  style={{
-                    width: "100%",
-                    height: 56,
-                    background: "white",
-                    borderRadius: 4,
-                    border: "1px solid #ddd",
-                    paddingLeft: 14,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-                  {notificationTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </div>
-
-          {/* Update Button */}
-          <div
-            style={{
-              width: "30%",
-              height: "7%",
-              position: "absolute",
-              left: "calc(50% - 2px)",
-              bottom: 15,
-              background: "#176B87",
-              borderRadius: 4,
-              color: "white",
-              fontSize: 16,
-              fontWeight: "500",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-          >
-            <button
-              type="submit"
-              style={{
-                background: "none",
-                border: "none",
-                color: "white",
-                cursor: "pointer",
-                fontSize: 16,
-                fontWeight: "500",
-              }}
-            >
-              Update
-            </button>
-          </div>
-
-          {/* Time Input */}
-          <div
-            style={{
-              width: "48%",
-              position: "absolute",
-              left: 15,
-              top: "35%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <label>
-              Time:
-              <input
-                type="time"
-                name="time"
-                style={{
-                  width: "100%",
-                  height: 56,
-                  background: "white",
-                  borderRadius: 4,
-                  border: "1px solid #ddd",
-                  paddingLeft: 14,
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
-              />
-            </label>
-          </div>
-
-          {/* Day of Week Input */}
-          <div
-            style={{
-              width: "48%",
-              position: "absolute",
-              left: "calc(50% + 2px)",
-              top: "35%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <label>
-              Day of Week:
-              <select
+              </InputLabel>
+              <Select
+                labelId="notificationType-label"
+                id="notificationType"
+                name="notificationType"
+                label="Notification Type"
+              >
+                {notificationTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="time"
+              name="time"
+              label="Time"
+              type="time"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="dayOfWeek-label">Day of Week:</InputLabel>
+              <Select
+                labelId="dayOfWeek-label"
+                id="dayOfWeek"
                 name="dayOfWeek"
-                style={{
-                  width: "100%",
-                  height: 56,
-                  background: "white",
-                  borderRadius: 4,
-                  border: "1px solid #ddd",
-                  paddingLeft: 14,
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
+                label="Day of Week"
               >
                 {daysOfWeek.map((day) => (
-                  <option key={day} value={day}>
+                  <MenuItem key={day} value={day}>
                     {day}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-          </div>
-
-          {/* Message Input */}
-          <div
-            style={{
-              width: "96%",
-              position: "absolute",
-              left: 15,
-              top: "60%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <label>
-              Message:
-              <textarea
-                name="message"
-                style={{
-                  width: "100%",
-                  height: 80,
-                  resize: "none",
-                  background: "white",
-                  borderRadius: 4,
-                  border: "1px solid #ddd",
-                  paddingLeft: 14,
-                  paddingTop: 8,
-                  fontSize: 16,
-                  fontWeight: "500",
-                }}
-              />
-            </label>
-          </div>
-        </div>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="message"
+              name="message"
+              label="Message"
+              multiline
+              rows={4}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <SubmitButton type="submit">Update</SubmitButton>
+          </Grid>
+        </Grid>
       </form>
-    </div>
+    </FormContainer>
   );
 }
 

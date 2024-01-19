@@ -1,93 +1,158 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  BsFillArchiveFill,
+  BsChatFill,
+  BsPeopleFill,
+  BsFillBellFill,
+} from "react-icons/bs";
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+} from "recharts";
 
 function Home() {
-    const navigate = useNavigate();
-    const Login =()=>{
-        navigate('/Login')
-    }
+  const data = [
+    {
+      name: "Page A",
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: "Page B",
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: "Page C",
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: "Page D",
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: "Page E",
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: "Page F",
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: "Page G",
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ];
+
   return (
-    <div>
-      <div style={{ height: "60px", display: "flex" }}>
-        <div className="column" />
-        <h3 style={{ color: "#176B87", marginLeft: 50 }}>HydroAlert</h3>
-        <div className="column" style={{ flex: "100%" }} />
-        <button
-          style={{
-            height: "25px",
-            width: "10%",
-            marginTop: "20px",
-            backgroundColor: "#176B87",
-            fontFamily: "Poppins",
-            color: "white",
-            border: "none",
-            marginRight: "30px",
-          }}
-         onClick={Login}
-        >
-          Login
-        </button>
+    <main className="main-container">
+      <div className="main-title">
+        <h3>DASHBOARD</h3>
       </div>
-      <div>
-        <div
-          style={{ width: 499, marginLeft: 50, marginTop: 50 }}
-    
-        >
-          <span
-            style={{
-              color: "#176B87",
-              fontSize: 40,
-              fontFamily: "Inter",
-              fontWeight: "700",
-              wordWrap: "break-word",
-              marginTop: 100,
-            }}
-          >
-            HydroAlert
-          </span>
-          <span
-            style={{
-              color: "#235998",
-              fontSize: 40,
-              fontFamily: "Inter",
-              fontWeight: "700",
-              wordWrap: "break-word",
-              marginLeft: 30,
-            }}
-          >
-            ,{" "}
-          </span>
-          <span
-            style={{
-              color: "black",
-              fontSize: 40,
-              fontFamily: "Inter",
-              fontWeight: "700",
-              wordWrap: "break-word",
-            }}
-          >
-            Fast and Quality Water Delivery.
-          </span>
+
+      <div className="main-cards">
+        <div className="card">
+          <div className="card-inner">
+            <h3>PRODUCTS</h3>
+            <BsFillArchiveFill className="card_icon" />
+          </div>
+          <h1>30</h1>
         </div>
-        <div
-          style={{
-            width: 519,
-            color: "#545151",
-            fontSize: 20,
-            fontFamily: "Inter",
-            fontWeight: "400",
-            wordWrap: "break-word",
-            marginLeft: 50,
-            marginTop: 30,
-          }}
-        >
-          simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry's standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book
+        <div className="card">
+          <div className="card-inner">
+            <h3>COMMENTS</h3>
+            <BsChatFill className="card_icon" />
+          </div>
+          <h1>500</h1>
+        </div>
+        <div className="card">
+          <div className="card-inner">
+            <h3>USERS</h3>
+            <BsPeopleFill className="card_icon" />
+          </div>
+          <h1>33</h1>
+        </div>
+        <div className="card">
+          <div className="card-inner">
+            <h3>ALERTS</h3>
+            <BsFillBellFill className="card_icon" />
+          </div>
+          <h1>42</h1>
         </div>
       </div>
-    </div>
+
+      <div className="charts">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="pv" fill="#8884d8" />
+            <Bar dataKey="uv" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pv"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </main>
   );
 }
 

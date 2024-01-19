@@ -1,6 +1,9 @@
+// firebase.js
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import "firebase/compat/storage";
+import "firebase/compat/messaging";
 // import dotenv from "dotenv";
 
 // dotenv.config();
@@ -19,5 +22,7 @@ firebase.initializeApp(firebaseConfig);
 
 const firestore = firebase.firestore();
 const auth = firebase.auth();
+const messaging = firebase.messaging();
+const storage = firebase.storage();
 
-export { firestore, auth };
+export { firestore, auth, messaging, storage };

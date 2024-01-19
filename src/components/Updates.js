@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { firestore } from "../firebase";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+} from "@material-ui/core";
 
 function Updates() {
   const navigate = useNavigate();
@@ -62,40 +70,46 @@ function Updates() {
           border: "1px solid #ddd",
         }}
       >
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Location</th>
-              <th>Notification Type</th>
-              <th>Time</th>
-              <th>Day</th>
-              <th>Message</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Location</TableCell>
+              <TableCell>Notification Type</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Day</TableCell>
+              <TableCell>Message</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {updates.map((update) => (
-              <tr key={update.id}>
-                <td>{update.location}</td>
-                <td>{update.notificationType}</td>
-                <td>{update.time}</td>
-                <td>{update.dayOfWeek}</td>
-                <td>{update.message}</td>
-                <td>
-                  <button
+              <TableRow key={update.id}>
+                <TableCell>{update.location}</TableCell>
+                <TableCell>{update.notificationType}</TableCell>
+                <TableCell>{update.time}</TableCell>
+                <TableCell>{update.dayOfWeek}</TableCell>
+                <TableCell>{update.message}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => handleUpdate(update.id)}
                     style={{ marginRight: "8px" }}
                   >
                     Update
-                  </button>
-                  <button onClick={() => handleDelete(update.id)}>
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDelete(update.id)}
+                  >
                     Delete
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <div
         style={{
@@ -108,7 +122,9 @@ function Updates() {
           overflow: "hidden",
         }}
       >
-        <button
+        <Button
+          variant="contained"
+          color="primary"
           style={{
             left: "10%",
             top: "50%",
@@ -116,51 +132,11 @@ function Updates() {
             position: "absolute",
             fontSize: 14,
             fontFamily: "Poppins",
-            background: "#176B87",
-            color: "white",
-            border: "none",
           }}
           onClick={() => navigate("/Form")}
         >
           Add Update
-        </button>
-      </div>
-      <div
-        style={{
-          width: "100%",
-          height: "5%",
-          position: "absolute",
-          left: "5%",
-          top: "2%",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            color: "#176B87",
-            fontSize: 18,
-            fontFamily: "Poppins",
-            fontWeight: "700",
-            wordWrap: "break-word",
-          }}
-        >
-          HydroAlert
-        </div>
-        <Link
-          to={"/"}
-          style={{
-            left: "80%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            position: "absolute",
-            color: "black",
-            fontSize: 12,
-            fontFamily: "Inter",
-            fontWeight: "400",
-          }}
-        >
-          Home
-        </Link>
+        </Button>
       </div>
     </div>
   );
