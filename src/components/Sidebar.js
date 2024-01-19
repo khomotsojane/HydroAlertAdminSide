@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   BsAlarm,
   BsGrid1X2Fill,
@@ -26,37 +27,36 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <ul className="sidebar-list">
         <li className="sidebar-list-item">
-          <a href="/">
+          <Link to="/">
+            {" "}
+            {/* Using Link for navigation */}
             <BsGrid1X2Fill className="icon" /> Dashboard
-          </a>
+          </Link>
         </li>
-
         <li className="sidebar-list-item">
-          <a href="/updates">
+          <Link to="/updates">
             <BsMenuButtonWideFill className="icon" /> Updates
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="/tanks">
+          <Link to="/tanks">
             <BsFillArchiveFill className="icon" /> Products
-          </a>
+          </Link>
         </li>
-
         <li className="sidebar-list-item">
-          <a href="/users">
+          <Link to="/users">
             <BsPeopleFill className="icon" /> Users
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="/orders">
+          <Link to="/orders">
             <BsListCheck className="icon" /> Orders
-          </a>
+          </Link>
         </li>
-
         <li className="sidebar-list-item">
-          <a href="/comments">
+          <Link to="/comments">
             <BsChatFill className="icon" /> Comments
-          </a>
+          </Link>
         </li>
       </ul>
     </aside>

@@ -1,107 +1,101 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  TextField,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  Avatar,
+} from "@material-ui/core";
 import { auth } from "../firebase";
-import watertruckImage from "../assets/watertruck.jpg";
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState("");
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+  },
+  formContainer: {
+    width: "400px",
+    padding: theme.spacing(2),
+    boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
+    borderRadius: "8px",
+    backgroundColor: "#f3f3f3",
+  },
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    marginBottom: theme.spacing(2),
+    backgroundColor: "#ff5722",
+  },
+  textField: {
+    marginBottom: theme.spacing(2),
+  },
+  button: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+const Login = ({ onLogin }) => {
+  const classes = useStyles();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      navigate("/sidebar");
+      await auth.signInWithEmailAndPassword(username, password);
+      onLogin();
     } catch (error) {
-      console.error("Error logging in:", error);
+      alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="row">
-      <div
-        className="col"
-        style={{
-          width: 413,
-          height: 500,
-          background: "#FCFCFC",
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-          borderRadius: 5,
-          border: "0.30px solid",
-          marginLeft: 50,
-          margin: 50,
-        }}
-      >
-        <div
-          style={{
-            color: "black",
-            fontSize: 25,
-            fontFamily: "Inter",
-            fontWeight: "700",
-            wordWrap: "break-word",
-            marginTop: 50,
-            textAlign: "center",
-          }}
-        >
-          Welcome Back Officer
-        </div>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{
-            width: 329,
-            height: 52,
-            background: "white",
-            borderRadius: 16,
-            border: "1px #176B87 solid",
-            marginTop: 100,
-            marginLeft: 50,
-          }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{
-            width: 329,
-            height: 52,
-            background: "white",
-            borderRadius: 16,
-            border: "1px #176B87 solid",
-            marginTop: 30,
-            marginLeft: 50,
-          }}
-        />
-        <button
-          style={{
-            width: 329,
-            height: 52,
-            background: "#176B87",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            borderRadius: 16,
-            border: "1px #176B87 solid",
-            marginTop: 30,
-            marginLeft: 50,
-          }}
-          onClick={handleLogin}
-        >
-          Login
-        </button>
+    <Container className={classes.container}>
+      <div className={classes.formContainer}>
+        <Grid container direction="column" alignItems="center" spacing={2}>
+          <Grid item>
+            <Avatar className={classes.avatar} />
+          </Grid>
+          <Grid item>
+            <Typography variant="h4">Login Page</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              type="text"
+              label="Username"
+              variant="outlined"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              className={classes.textField}
+              type="password"
+              label="Password"
+              variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </Grid>
+        </Grid>
       </div>
-      <div className="col">
-        <img
-          style={{ width: 551, height: 349, marginTop: 100 }}
-          src={watertruckImage}
-          alt="Water Truck"
-        />
-      </div>
-    </div>
+    </Container>
   );
 };
 
-export default LoginScreen;
+export default Login;

@@ -120,11 +120,7 @@ body {
 .sidebar-responsive {
   display: inline !important;
   position: absolute;
-  /*
-    we want the z-index of the sidebar higher so that
-    the charts are not showing over the sidebar 
-    on small screens
-  */
+ 
   z-index: 12 !important;
 }
 
@@ -240,4 +236,8 @@ body {
   .hedaer-left {
     display: none;
   }
+}
+ 
+.larger-icon {
+  font-size: 1.5rem;
 }

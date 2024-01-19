@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
-import { TextField, Button, Paper, Typography, makeStyles } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1, 2),
     borderRadius: theme.shape.borderRadius,
-    maxWidth: "70%",
+    maxWidth: "100%",
     wordWrap: "break-word",
   },
   receivedMessage: {
@@ -40,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.contrastText,
     padding: theme.spacing(1, 2),
     borderRadius: theme.shape.borderRadius,
-    maxWidth: "70%",
+    maxWidth: "100%",
     wordWrap: "break-word",
   },
   inputContainer: {
@@ -82,7 +88,7 @@ function Chats() {
       const newChatRef = chatsRef.push();
       newChatRef.set({
         message: chatText,
-        senderID: "YOUR_SENDER_ID", // Replace with your sender ID or remove this line if not needed
+        senderID: "YOUR_SENDER_ID", 
         timestamp: firebase.database.ServerValue.TIMESTAMP,
       });
       setChatText("");
